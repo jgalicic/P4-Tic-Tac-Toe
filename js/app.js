@@ -60,7 +60,7 @@ $( document ).ready(function() {
 		else if ($(box[2]).hasClass("box-filled-2") && $(box[4]).hasClass("box-filled-2") && $(box[6]).hasClass("box-filled-2")) {
 			xWins();
 		}
-		else if (turnNumber === 8) {
+		else if ((turnNumber === 8) && ($('.available').length === 1)) {
 			tieGame();
 		}
 	}
@@ -147,36 +147,38 @@ $( document ).ready(function() {
 	// When a box is clicked
 	$(".box").on("click", function() {
 
-		checkIfSomebodyWon();
+		if ($(this).hasClass("available")) {
 
-		if (gameHasEnded) {
-			$('#board').toggle(false);
-			$('#finish').toggle(true);
-		}
+			checkIfSomebodyWon();
 
-		else if ((turnNumber % 2 != 0) && ($(this).hasClass("available"))) {
-			$(player1).addClass("active");
-		 	$(player2).removeClass("active");
-		 	$(this).removeClass( "available" );
-		 	this.style.backgroundColor = "#3688C3";
-		 	turnNumber += 1;
-		}
+			if (gameHasEnded) {
+				$('#board').toggle(false);
+				$('#finish').toggle(true);
+			}
 
-		else if ((turnNumber % 2 === 0) && ($(this).hasClass("available"))) {
-		 	$(player2).addClass("active");
-		 	$(player1).removeClass("active");
-		 	$(this).removeClass( "available" );
-		 	this.style.backgroundColor = "#FFA000";
-		 	turnNumber += 1;
+			else if (turnNumber % 2 != 0) {
+				$(player1).addClass("active");
+			 	$(player2).removeClass("active");
+			 	$(this).removeClass( "available" );
+			 	this.style.backgroundColor = "#3688C3";
+			 	turnNumber += 1;
+			}
+
+			else if (turnNumber % 2 === 0) {
+			 	$(player2).addClass("active");
+			 	$(player1).removeClass("active");
+			 	$(this).removeClass( "available" );
+			 	this.style.backgroundColor = "#FFA000";
+			 	turnNumber += 1;
+			}
 		}
 	});
-
 
 	$(".button").on("click", function() {
 		$('#board').toggle(true);
 		startGame();
 
-});
+	});
 
 
 });
